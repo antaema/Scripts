@@ -1,0 +1,17 @@
+$ sudo fdisk -l
+$ sudo mount /dev/sdaX /mnt
+$ sudo mount --bind /dev/ /mnt/dev
+$ sudo chroot /mnt
+$ sudo su
+
+ update-grub
+grub-install /dev/sda
+(Ctrl + d)
+
+$ sudo umount /mnt/dev
+$ sudo umount /mnt
+
+Reiniciar PC:
+
+$ sudo update-grub
+

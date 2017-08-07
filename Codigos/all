@@ -1,0 +1,12 @@
+#!/bin/bash
+./disable_ipv6
+./Buil-Essential
+./Code Blocks
+./Flash Player
+./Google Chrome
+./Grub Recovery
+./Java JDK
+./nano
+./OpenGL
+./Sublime Text
+./Update

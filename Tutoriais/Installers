@@ -1,0 +1,2 @@
+sudo dpkg -i nome_arquivo.deb
+

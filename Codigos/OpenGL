@@ -1,0 +1,12 @@
+#!/bin/bash
+sudo apt-get update
+sudo apt-get install freeglut3 freeglut3-dev
+sudo apt-get install glew-utils libglew-dev
+sudo apt-get install libsoil-dev
+sudo apt-get install libglm-dev
+sudo apt-get install libsdl2-dev
+
+#Compile:
+#gcc main.c -lSOIL -lGL -lGLU -lfreeglut -lGLEW -o main
+#g++ main.cpp -lSOIL -lGL -lGLU -lfreeglut -lGLEW -o main
+

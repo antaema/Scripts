@@ -1,0 +1,8 @@
+sudo add-apt-repository ppa:graphics-drivers/ppa
+sudo apt-get update
+sudo apt-get install nvidia-current-updates 
+sudo apt-get install nvidia-
+
+#change version (367 -> current)
+sudo apt-get install nvidia-367
+

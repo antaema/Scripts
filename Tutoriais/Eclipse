@@ -1,0 +1,35 @@
+Baixar o Eclipse (tar.gz):
+
+Extrair:
+tar -zxvf (nome do arquivo).tar.gz
+
+Mover a pasta "eclipse" para /usr/lib:
+sudo mv eclipse /usr/lib/
+
+Crie um executável:
+sudo touch /usr/bin/eclipse
+
+Dê permissão de execução:
+sudo chmod 755 /usr/bin/eclipse
+
+Edite o executável:
+gksu gedit /usr/bin/eclipse
+
+	#!/bin/sh
+	export ECLIPSE_HOME="/usr/lib/eclipse/eclipse"
+
+Para criar o lançador (e incluir no menu):
+gksu gedit /usr/share/applications/eclipse.desktop
+
+	[Desktop Entry]
+	Type=Application
+	Encoding=UTF-8
+	Name=Eclipse
+	Comment=Eclipse IDE
+	Exec=/usr/lib/eclipse/eclipse
+	Icon=/usr/lib/eclipse/icon.xpm
+	Terminal=false
+	Type=Application
+	Categories=GNOME;Application;Development;
+	StartupNotify=true
+
