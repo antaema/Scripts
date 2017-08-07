@@ -1,4 +1,4 @@
-sudo add-apt repository ppa:noobslab/icons
+sudo add-apt-repository ppa:noobslab/icons
 sudo add-apt-repository ppa:noobslab/themes
 sudo add-apt-repository ppa:rebuntu16/other-stuff
 sudo apt-get update
