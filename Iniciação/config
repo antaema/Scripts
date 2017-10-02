@@ -1,0 +1,4 @@
+executable = program ;
+cpu_limit = 10%;
+memory_limit = 20% ;
+exit_events = keyboard, click, mouse_move;
