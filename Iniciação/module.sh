@@ -11,10 +11,16 @@ OldIFS=$IFS;
 IFS=';';
 
 for line in $(cat $1); do
-   IFS=' ';
-   for token in $line; do
-      echo $token;
-   done
+      IFS=' ';
+      line=$(echo $line | tr -d '\n');
+      for token in $line; do       
+      		IFS=',';
+      		for subToken in $token; do
+               if [[ -n "$subToken" ]]; then
+         		 echo $subToken;
+               fi 
+         	done
+      done
    IFS=';';
 done
 
