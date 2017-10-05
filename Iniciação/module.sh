@@ -17,7 +17,7 @@ for line in $(cat $1); do
 	for token in $line; do       
 		IFS=',';
 		for subToken in $token; do
-			IFS=$OldIFS;
+
 			case $state in
 			0)		  
 				echo $subToken;
