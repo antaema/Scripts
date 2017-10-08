@@ -165,14 +165,31 @@ if [[ -n "$programa" ]];then
 	else
 		echo "./$programa 1>$output_file 2>$error_file &" | sh;
 	fi
+	IFS=$OldIFS;
+	pid=$(ps aux | grep -v grep | grep "$programa" | awk '{print $2}');
+	while [[ -n "$pid" ]] ; do
+		pid=$(ps aux | grep -v grep | grep "$programa" | awk '{print $2}');
+		cpu_usage=$(ps aux | grep -v grep | grep "$programa" | awk '{print $3}');
+		memory_usage=$(ps aux | grep -v grep | grep "$programa" | awk '{print $4}');
+		
+		if [[ -n cpu_limit ]];then
+			teste=$(echo "$cpu_usage" <= "$percentage_cpu" | bc);
+		else
+			teste=$(echo "$cpu_usage" <= 30.0 | bc);
+		fi
+		if [[ "$teste" == "1" ]];then
+			if [[ -n cpu_limit ]];then
+				teste=$(echo "$memory_usage" <= "$percentage_memory" | bc);
+			else
+				teste=$(echo "$memory_usage" <= 30.0 | bc);
+			fi
+			if [[ "$teste" != "1" ]];then
+				kill -9 "$pid";
+			fi
+		else
+ 			kill -9 "$pid";
+		fi
+	done
 else
 	echo " Não foi definido nenhum progama para ser executado";
 fi
-
-
-IFS=$OldIFS;
-percentage_cpu
-percentage_memory
-
-
-echo "./$programa" | sh;
