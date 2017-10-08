@@ -1,4 +1,9 @@
 #include<stdio.h>
 int main(){
-	printf("Testando-----+++++-----\n");
+	int i = 0;
+	while(i <= 10){
+		printf("Testando-----+++++-----\n");
+		i++;
+	}
+	
 }

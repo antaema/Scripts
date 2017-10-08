@@ -4,5 +4,9 @@ program = program
 cpu_limit = 10%
 //Determina o limite de memorio que deseja se usar
 memory_limit = 20%
+//Arquivo para a saida do progama
+ouput_file = saida 
+//Arquivo de saida de erros
+error_file = erros 
 //Determina os eventos de saida
 exit_events = keyboard

@@ -33,6 +33,10 @@ for line in $(cat $1); do
 				state=3;
 			elif [[ "$token" == "exit_events"  ]];then
 				state=4;
+			elif [[ "$token" == "ouput_file"  ]];then
+				state=5;
+			elif [[ "$token" == "error_file"  ]];then
+				state=6;
 			else
 				echo "Erro de sintaxe na linha \"$line\"" ;
 				break;
@@ -41,8 +45,8 @@ for line in $(cat $1); do
 		1) 	  
 			if [[ "$token" == "=" ]];then
 				step=1;
-			elif [[ $step == "1" ]];then
-				if [[ -f $token ]];then
+			elif [[ "$step" == "1" ]];then
+				if [[ -f "$token" ]];then
 					programa=$token;
 					step=2;
 				else
@@ -72,7 +76,6 @@ for line in $(cat $1); do
 					fi
 				else
 					echo "Erro na linha \"$line\"";
-					echo "Progama inexistente"
 					break;
 				fi
 			else
@@ -83,11 +86,11 @@ for line in $(cat $1); do
 		3) 	  
 			if [[ "$token" == "=" ]];then
 				step=1;
-			elif [[ $step == "1" ]];then
+			elif [[ "$step" == "1" ]];then
 				token=$(echo $token | sed 's/%//');
-				if [[ $token =~ ^[0-9]+([.,]?[0-9]+)?$ ]];then
+				if [[ "$token" =~ ^[0-9]+([.,]?[0-9]+)?$ ]];then
 					teste=$(echo "$token <= 100.0" | bc);
-					if [[ $teste == 1 ]];then
+					if [[ "$teste" == "1" ]];then
 						percentage_memory=teste;
 						step=2;
 					else
@@ -97,7 +100,6 @@ for line in $(cat $1); do
 					fi
 				else
 					echo "Erro na linha \"$line\"";
-					echo "Progama inexistente"
 					break;
 				fi
 			else
@@ -108,17 +110,69 @@ for line in $(cat $1); do
 		4) 	  
 			if [[ "$token" == "=" ]];then
 				step=1;
-			elif [[ $step == "1" ]];then
-				if [[ $token == "keyboard" ]];then
+			elif [[ "$step" == "1" ]];then
+				if [[ "$token" == "keyboard" ]];then
 					keyboard=true;
 				else
 					echo "Erro na linha \"$line\"";
-					echo "Progama inexistente"
 					break;
 				fi
+			else
+				echo "Erro na linha \"$line\"";
+			 	break;
+			fi
+		;;
+		5) 	  
+			if [[ "$token" == "=" ]];then
+				step=1;
+			elif [[ "$step" == "1" ]];then
+				if [[ -n "$token"  ]];then
+					output_file=$token;
+				else
+					echo "Erro na linha \"$line\"";
+					break;
+				fi
+			else
+				echo "Erro na linha \"$line\"";
+			 	break;
+			fi
+		;;
+		6) 	  
+			if [[ "$token" == "=" ]];then
+				step=1;
+			elif [[ $step == "1" ]];then
+				if [[ -n "$token"  ]];then
+					error_file=$token;
+				else
+					echo "Erro na linha \"$line\"";
+					break;
+				fi
+			else
+				echo "Erro na linha \"$line\"";
+			 	break;
 			fi
 		;;		
 		esac
 	done
 done
 
+if [[ -n "$programa" ]];then
+	#se nao definiu arquivo de saida de erro ambos vão para o mesmo lugar
+	if [[ -n "$output_file" && -z "$error_file" ]];then
+		echo "./$programa &>$output_file &" | sh;
+	elif [[ -z "$output_file" && -n "$error_file" ]];then
+		echo "./$programa 1>/dev/null 2>$error_file &" | sh;
+	else
+		echo "./$programa 1>$output_file 2>$error_file &" | sh;
+	fi
+else
+	echo " Não foi definido nenhum progama para ser executado";
+fi
+
+
+IFS=$OldIFS;
+percentage_cpu
+percentage_memory
+
+
+echo "./$programa" | sh;
